@@ -1,0 +1,39 @@
+service: layer-requests
+
+plugins:
+  - serverless-python-requirements
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
+    - .gitignore
+    - __pycache__/**
+    - .serverless/**
+    - requirements.txt
+    - README.md
+
+custom:
+  env: ${file(../env/${self:provider.stage}.yml)}
+  pythonRequirements:
+    pythonBin: python3.8
+    dockerizePip: non-linux
+    layer:
+      name: ${self:provider.stage}_requests
+      description: |
+          - [requests==2.27.1]
+      compatibleRuntimes:
+        - python3.8
+
+provider:
+  name: aws
+  stage: ${opt:stage}
+  region: ${self:custom.env.aws_region_name}
+  deploymentBucket:
+    name: ${self:custom.env.code_bucket}
+    maxPreviousDeploymentArtifacts: 5
+  stackTags:
+    PROJECT: lambda-layers
+    TYPE: layer
+    STACK: ${self:service}
+    ENVIRONMENT: ${self:provider.stage}
+    REGION: ${self:provider.region}
