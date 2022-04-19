@@ -1,6 +1,8 @@
 # PantoLambda
 
-A collection of Python Packages as AWS Lambda Layers used inside the Lochness project.
+A collection of Python Packages as AWS Lambda Layers for the Lochness project.
+
+Inspired by https://en.wikipedia.org/wiki/Pantolambda
 
 ## Requirements
 
